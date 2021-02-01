@@ -1,0 +1,178 @@
+\documentclass[11pt]{book}
+%\documentclass[10pt]{llncs}
+%\usepackage{llncsdoc}
+% \usepackage[sc,osf]{mathpazo}   % With old-style figures and real smallcaps.
+\linespread{1.025}              % Palatino leads a little more leading
+% Euler for math and numbers
+% \usepackage[euler-digits,small]{eulervm}
+% \usepackage{physics}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{makeidx}
+\usepackage{physics}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{listing}
+% \usepackage{minted}
+% \usepackage{cancel}
+\evensidemargin=0.20in
+\oddsidemargin=0.20in
+\topmargin=0.2in
+%\headheight=0.0in
+%\headsep=0.0in
+%\setlength{\parskip}{0mm}
+%\setlength{\parindent}{4mm}
+\setlength{\textwidth}{6.4in}
+\setlength{\textheight}{8.5in}
+%\leftmargin -2in
+%\setlength{\rightmargin}{-2in}
+%\usepackage{epsf}
+%\usepackage{url}
+
+\usepackage{booktabs}   %% For formal tables:
+                        %% http://ctan.org/pkg/booktabs
+\usepackage{subcaption} %% For complex figures with subfigures/subcaptions
+                        %% http://ctan.org/pkg/subcaption
+\usepackage{enumitem}
+%\usepackage{minted}
+%\newminted{fortran}{fontsize=\footnotesize}
+
+\usepackage{xargs}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\usepackage{epsfig}
+\usepackage{tabularx}
+\usepackage{latexsym}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\R}{\ensuremath{\mathbb R}}
+\newcommand{\coT}{\ensuremath{T^*}}
+\newcommand{\Lie}{\ensuremath{\mathfrak{L}}}
+\newcommand{\Vectorfield}{\ensuremath{\mathfrak{X}}}
+\newcommand{\pushforward}[1]{\ensuremath{{#1}_{\star}}}
+\newcommand{\pullback}[1]{\ensuremath{{#1}^{\star}}}
+\newcommand{\vectorfield}{\ensuremath{\mathfrak{X}}}
+\newcommand{\lagrangian}{\mathcal{L}}
+\newcommand{\pushfwd}[1]{\pushforward{#1}}
+\newcommand{\pf}[1]{\pushfwd{#1}}
+
+\newcommand{\boldX}{\ensuremath{\mathbf{X}}}
+\newcommand{\boldY}{\ensuremath{\mathbf{Y}}}
+
+% \newcommand{\derivative}[1]{\frac{d}{d#1}}
+\newcommand{\G}{\ensuremath{\mathcal{G}}}
+% \newcommand{\braket}[2]{\ensuremath{\left\langle #1 \vert #2 \right\rangle}}
+
+
+\def\qed{$\Box$}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{proof}[theorem]{Proof}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\X}{\ensuremath{\mathfrak{X}}}
+% \newcommand{\l}{\mathcal{L}}
+
+\title{Symmetries and Spin}
+\author{Tanmay Sinha}
+\date{Spring 2021}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Introduction}
+These notes are notes taken for the course Introduction to Particle Physics. The main reference book is Griffiths' Introduction to Elementary Particles. This chapter covers symmetries and Lie Groups, which forms part of chapter 4 of Griffiths'.
+
+\section{Noether's Theorem}
+(Note: Most of the stuff that is here wasn't part of the chapter - he mentioned this stuff only briefly. However, I found this interesting and read up a bit more on it, and the following section details that portion).
+
+
+Symmetries are important in nature as they let us argue about the behaviour of systems. Noether's Theorem shows this argument explicitly: symmetry $\iff$ conservation law.
+
+Some examples: Time translation symmetry $\iff$ energy conservation, space translation symmetry $\iff$ momentum conservation, Rotational symmetry $\iff$ angular momentum conservation, and gauge transformation symmetry $\iff$ charge conservation.
+
+A brief `discussion` on Noether's Theorem follows, which I have mostly read from the Wikipedia article on Noether's Theorem. Note that the `discussion` is probably flawed, and doesn't capture all the information.
+
+
+Consider the Euler-Lagrange equations for time evolution of a system. It depends on the Lagrangian $\lagrangian$ of the system.
+
+\begin{equation}\label{eqn:eulerlagrange}
+\frac{d}{dt} \left( \frac{\partial \lagrangian}{\partial \dot{q_k}}\right) = \frac{\partial \lagrangian}{\partial q_k} 
+\end{equation}
+
+\eqref{eqn:eulerlagrange} holds for each of the $q_k$ coordinates. Now, consider the case when the Lagrangian does not depend on a coordinate $q_k$. Then, the RHS of \eqref{eqn:eulerlagrange} is 0, and as such, the quantity $\frac{\partial \lagrangian}{\partial \dot{q_k}}$ is conserved. This is the generalized momentum $p_k = \frac{\partial \lagrangian}{\partial \dot{q_k}}$, and we have $\frac{dp_k}{dt} = 0$.
+
+The Lagrangian is invariant under this coordinate, and this results in a symmetry of the system. Corresponding to this symmetry is a conservation law. 
+
+More generally, we may say that the Lagrangian is invariant under a small perturbation in time and coordinates. These perturbations are of the form $t \rightarrow t + \delta t$, and $q \rightarrow q + \delta q$. If there are $N$ such symmetries generated by $T_r$ and $Q_r$, we may write the perturbations as $\delta t = \sum_{r}^{} \epsilon_r T_r$, and $\delta q = \sum_{r}^{} \epsilon_r Q_r$, where $r$ can take $N$ values. Starting from this, we can show that the $N$ quantities 
+
+\begin{equation}
+\left(\frac{\partial \lagrangian}{\partial \dot q }\cdot \dot q - \lagrangian \right) T_r - \frac{\partial \lagrangian}{\partial \dot q} \cdot Q_r 
+\end{equation}
+
+are conserved, and are constants of motion(for the full derivation, see \href{https://en.wikipedia.org/wiki/Noether%27s_theorem#Derivations}{this}).
+
+For example, for time translation invariance, $N = 1$ , $T = 1$, and $Q = 0$, and we have the quantity $H = \frac{\partial \lagrangian}{\partial \dot q}\cdot \dot q - \lagrangian$. This is the Hamiltonian or the total  energy of the system.
+
+For space translation invariance, taking the generalized quantities as the simple basis vectors, we get $N = 3$, $Q_r = 1$ for all $r$, and $T_r = 0$. Thus, we have the conserved quantity $p_r = \frac{\partial \lagrangian}{\partial \dot q_r}$, which is the momentum.(Apparently, we can combine both the space and time invariance using special relativity and general relativity, but that is a bit too much for me for now.)
+
+For rotational symmetry, assume that Lagrangian remains invariant under small rotations about a line given by a vector $n$. Then, the perturbation along the position vector can be written as $r \rightarrow r + \epsilon n \times r$, and we have the generator for spacial coordinates as $Q = n \times r$. We again have $T_r = 0$, to get the conserved quantity $\frac{\partial \lagrangian}{\partial \dot r}\cdot Q = p \cdot (n \times r) = n \cdot (p \times r) = n \cdot L$, which is the angular momentum about the $n$ axis. If this holds for all $n$ then we have the total conservation of angular momentum.
+
+There are more general formulas and results, but I think this suffices for now. This is also a bit incomplete I fear; for more information see the Wikipedia article.
+
+\section{Symmetries}
+I fear I went off on a bit of a tangent when describing the previous section. We would first like to understand what is a symmetry. A symmetry of a system is a transformation of a system that leaves it indistinguishable from what it originally was. Let us consider for example an equilateral triangle. The action of flipping it along a bisector leaves the entire thing unchanged, as we can superimpose the formed triangle on the original triangle. Similarly, a rotation by 120$^\circ$ about the center of the triangle leaves it invariant. If we call the rotation $r$ and the flip around any one bisector as $s$, then we can generate all the symmetries of the triangle by taking compositions of $r$ and $s$. This forms a group of symmetries of the triangle, $D_{6}$, called the dihedral group on 3 vertices(some call it $D_3$ - the 6 in $D_6$ signifies that it has 6 elements).
+
+
+Here, we will mostly deal with continous groups, or groups that can be parametrized by continous arguments. We would also be dealing with the matrix groups. Among the most important ones is the group $U(n)$, the group of $n \times n$ unitary matrices, and $SU(n) \subset U(n)$, those unitary matrices with determinant 1. In real space, we similarly have $O(n)$ and $SO(n)$.
+
+We can represent groups as matrices, called the \emph{representations} of groups. For example, the permutation group on $n$ letters can also be written as the group of $n \times n$ permutation matrices, and so on. More formally, a representation of a group $G$ is a group homomorphism $\varphi : G \to \text{GL}(V)$ of some vector space $V$, most of the times taken to be some $\mathbb{R}^n$. Thus, it is a map such that $\varphi(g_1g_2) = \varphi(g_1)\varphi(g_2)$.
+
+Of course, such a representation is not unique, and we can always combine two representations to get a third one, by constructing a block diagonal matrix with $\varphi_1(g)$ and $\varphi_2(g)$ along the main diagonal. So, we only care about 
+irreducible representations - those that cannot be written in block diagonal fashion. For example, $SU(2)$ has a fundamental representation given by the identity map; it also has a trivial representation, which maps all inputs to the identity; furthermore it has other representations as well, into 3 dimensional spaces, and so on.
+
+\section{Spin}
+Macroscopic objects like the Earth have a rotational angular momentum, corresponding to it's rotation about the Sun, and an intrinsic spin angular momentum for it's rotation about it's own axis. Similarly, particles have a spin angular momentum as well; however, this spin is intrinsic to the particle which we assume is a point particle, unlike the angular momentum of the Earth which was in some sense the sum of angular momentums of it's constituent rocks and other matter. 
+
+Classically, we may measure $L_x, L_y, and L_z$ simultaneously, but in QM, these operators are not commutative, and thus cannot be measured entirely accurately simultaneously. We can only measure the total Angular Momentum, $L^2 = L_x^2 + L_y^2 + L_z^2$, and along with this, one component of the total angular momentum, say $L_z$. Then, doing some quantum stuff(for the precise stuff, se Ramamurthi Shankar chapter 11 and chapter 12), we can derive that the measurement of $L^2$ can only yield numbers of the form $l(l+1)\hbar^2$, where $l$ is a non-negative integer. For a given value of $l$, measuring $L_z$ always yields a measurement of the form $m\hbar$, where $m \in \{-l,-l+1,\ldots l\}$.
+%(Notice that this means that the angular momentum along $z$ is always less than total angular momentum, so all angular momentum cannot be oriented purely along the $z$ axis(?????).)
+
+For spin angular momentum, a similar situation arises - the total spin angular momentum operator $S^2 = S_x^2 + S_y^2 + S_z^2$ gives a measurement of the form $s(s+1)\hbar^2$. But, here, the spin quantum number $s$ can take half integer values as well. For a given value of $s$, $S_z$ yields a measurement of the form $m\hbar$, where $m \in \{-l,-l+1,\ldots l\}$. The value of $s$ is \emph{fixed for a given particle} - e.g., for electrons, protons, neutrons and quarks, it is $\frac{1}{2}$; for photons, gluons, $\psi$ etc it is 1; for $\Delta$ and $\Omega$ it is $\frac{3}{2}$, and so on. Particles with half-integer spin are called fermions, and those with integer spins are called bosons.
+
+When we deal with systems with more than one particle, then, the total angular momentum behaves a bit weirdly. The $z$ components still just add up, but the total angular momentum may change; in general the total angular momentum may be anywhere between the minimum and maximum, in integer steps i.e. if one of the states has an angular momentum $j_1$ and the other $j_2$, then the total angular momentum might be anywhere between $j_1+j_2$ and $|j_1 - j_2|$, in integer steps. For example, let us say a quark and an antiquark combine to form a meson. Then, since quarks carry spin $\frac{1}{2}$, the total angular momentum might be 0 or 1. Spin 0 mesons are called pseudo-scalar mesons, and those of spin 1 are called vector mesons.
+
+The above method to combine angular momenta works for different types of angular momenta as well e.g. spin and orbital. To calculate the exact value of the wavefunction, we need to use something called the Clebsch Gordan coefficients.
+
+\subsection{Spin $\frac{1}{2}$}
+For a spin $\frac{1}{2}$ particle, the total spin AM is $\frac{1}{2}$(assuming $\hbar = 1$, and the momentum along $z$ is either $m = +\frac{1}{2}$ or $m = -\frac{1}{2}$. We can represent this as
+
+\begin{equation}
+\ket {\frac{1}{2} \frac{1}{2}} = \begin{bmatrix} 1 \\ 0 \\ \end{bmatrix},
+\ket {\frac{1}{2} -\frac{1}{2}} = \begin{bmatrix} 0 \\ 1 \\ \end{bmatrix}
+\end{equation}
+The general state of a system is a linear combination of the two states, such that the norm is one. These are called \emph{spinors}.
+ To compute the spin along the $x$ or $y$ axis, we have the Pauli matrices(or scaled versions of those) - $S_x$,$S_y$ and $S_z$.
+
+Under rotations, this system transforms as $\psi\prime = U(\theta)\psi$. We can show that $U(\theta)$ is 
+
+$$
+U(\theta) = e^{-i \theta \cdot \sigma / 2}
+$$
+
+Thus, $U(\theta)$ is a unitary matrix of determinant 1, and the spinors transform under rotations according to the fundamental, two dimensional representation of $SU(2)$. Similarly, we can show that particles of spin 1, described by vectors, belong to 3-dimensional representation of $SU(2)$, and spin $\frac{3}{2}$ particles, described by a four component object transform under the 4-dimensional representation of $SU(2)$, and so on.
+
+\end{document}
